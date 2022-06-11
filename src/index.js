@@ -12,6 +12,9 @@ import decompress from './modules/zip/decompress.js';
 import renameFile from './modules/fs/rename.js';
 import deleteFile from './modules/fs/delete.js';
 import createFile from './modules/fs/createFile.js';
+import readFile from './modules/fs/readFile.js';
+import copyFile from './modules/fs/copyFile.js';
+import moveFile from './modules/fs/moveFile.js';
 
 const index = async () => {
   createStartPath();
@@ -21,9 +24,9 @@ const index = async () => {
     const command = input[0];
     const firstValue = input[1];
     const secondValue = input[2];
-    // console.log('input', input);
-    // console.log('data', data.toString().trim());
+
     stdout.write(EOL);
+
     switch (command) {
       case 'exit':
       case '.exit':
@@ -120,7 +123,50 @@ const index = async () => {
 
       case 'add':
         if (firstValue) {
-          await createFile(firstValue);
+          try {
+            const result = await createFile(firstValue);
+            stdout.write(`${result}${EOL}${EOL}`);
+          } catch (error) {
+            console.error(fail);
+          }
+        } else {
+          console.error(fail);
+        }
+        break;
+
+      case 'cat':
+        if (firstValue) {
+          try {
+            await readFile(firstValue);
+            stdout.write(`${EOL}${EOL}`);
+          } catch (error) {
+            console.error(fail);
+          }
+        } else {
+          console.error(fail);
+        }
+        break;
+
+      case 'cp':
+        if ((firstValue, secondValue)) {
+          try {
+            const result = await copyFile(firstValue, secondValue);
+            stdout.write(`${result}${EOL}${EOL}`);
+          } catch (error) {
+            console.error(fail);
+          }
+        } else {
+          console.error(fail);
+        }
+        break;
+
+      case 'mv':
+        if ((firstValue, secondValue)) {
+          try {
+            await moveFile(firstValue, secondValue);
+          } catch (error) {
+            console.error(fail);
+          }
         } else {
           console.error(fail);
         }
@@ -135,10 +181,6 @@ const index = async () => {
   });
 
   onStop();
-
-  // копирование Streams. Createreadstream, createwritestream
-
-  //createBrotliCompress
 };
 
 index();

@@ -8,9 +8,11 @@ const compress = async (pathFile, pathCompress) => {
     const output = createWriteStream(getPath(pathCompress));
     const brot = createBrotliCompress();
 
+    input.on('error', (error) => reject(error));
+
     const stream = input.pipe(brot).pipe(output);
-    stream.on('finish', () => resolve('File has been compressed!'))
-    stream.on('error', (error) => reject(error))
+    stream.on('finish', () => resolve('File has been compressed!'));
+    stream.on('error', (error) => reject(error));
   });
 };
 

@@ -7,6 +7,6 @@ const getFiles = async (path) => {
   } catch (error) {
     return fail;
   }
-}
+};
 
 export default getFiles;

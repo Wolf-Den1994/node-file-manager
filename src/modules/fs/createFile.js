@@ -1,13 +1,15 @@
 import { createWriteStream } from 'fs';
-import { stdout } from 'node:process';
-import { EOL } from 'os';
 import { fail } from '../../utils/constants.js';
 import { getPath } from '../path/path.js';
 
 const createFile = async (path) => {
   try {
-    createWriteStream(getPath(path));
-    stdout.write(`File has been created${EOL}${EOL}`);
+    return new Promise((resolve, reject) => {
+      const stream = createWriteStream(getPath(path));
+      stream.on('error', (error) => reject(error));
+      stream.on('finish', () => resolve('File has been created'));
+      stream.close();
+    });
   } catch (error) {
     console.error(fail);
   }

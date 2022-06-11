@@ -8,9 +8,11 @@ const decompress = async (pathZip, pathDecompress) => {
     const output = createWriteStream(getPath(pathDecompress));
     const brot = createBrotliDecompress();
 
+    input.on('error', (error) => reject(error));
+
     const stream = input.pipe(brot).pipe(output);
-    stream.on('finish', () => resolve('File has been decompressed!'))
-    stream.on('error', (error) => reject(error))
+    stream.on('finish', () => resolve('File has been decompressed!'));
+    stream.on('error', (error) => reject(error));
   });
 };
 
