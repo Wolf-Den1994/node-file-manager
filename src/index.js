@@ -9,6 +9,9 @@ import customOS from './modules/os/index.js';
 import calculateHash from './modules/hash.js';
 import compress from './modules/zip/compress.js';
 import decompress from './modules/zip/decompress.js';
+import renameFile from './modules/fs/rename.js';
+import deleteFile from './modules/fs/delete.js';
+import createFile from './modules/fs/createFile.js';
 
 const index = async () => {
   createStartPath();
@@ -94,6 +97,30 @@ const index = async () => {
           } catch (error) {
             console.error(fail);
           }
+        } else {
+          console.error(fail);
+        }
+        break;
+
+      case 'rn':
+        if (firstValue && secondValue) {
+          await renameFile(firstValue, secondValue);
+        } else {
+          console.error(fail);
+        }
+        break;
+
+      case 'rm':
+        if (firstValue) {
+          await deleteFile(firstValue);
+        } else {
+          console.error(fail);
+        }
+        break;
+
+      case 'add':
+        if (firstValue) {
+          await createFile(firstValue);
         } else {
           console.error(fail);
         }
