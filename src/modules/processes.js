@@ -1,7 +1,7 @@
 import { argv, env } from 'node:process';
 import { stdout } from 'node:process';
 import { EOL } from 'os';
-import { getHomedir } from './path.js';
+import { getHomedir } from './path/path.js';
 import { sendByeText } from '../utils/textForUser.js';
 
 export const getName = () => {
