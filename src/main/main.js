@@ -5,6 +5,7 @@ import getFiles from '../modules/fs/getFiles.js';
 import { createStartPath, getPath } from '../modules/path/path.js';
 import up from '../modules/path/up.js';
 import { fail } from '../utils/constants.js';
+import customOS from '../modules/os/index.js';
 
 const main = async () => {
   createStartPath();
@@ -12,18 +13,20 @@ const main = async () => {
   stdin.on('data', async (data) => {
     const input = data.toString().trim().split(' ');
     const command = input[0];
-    console.log('input', input);
-    console.log('data', data.toString().trim());
+    // console.log('input', input);
+    // console.log('data', data.toString().trim());
     stdout.write(EOL);
     switch (command) {
       case 'exit':
       case '.exit':
         finishWork();
         break;
+
       case 'ls':
         const files = await getFiles(cwd());
         console.log(`files:${EOL}`, files, EOL);
         break;
+
       case 'up':
         try {
           up();
@@ -31,6 +34,7 @@ const main = async () => {
           console.error(fail);
         }
         break;
+
       case 'cd':
         const path = input[1];
         if (path) {
@@ -43,6 +47,16 @@ const main = async () => {
           console.error(fail);
         }
         break;
+
+      case 'os':
+        const operation = input[1];
+        if (operation) {
+          customOS(operation);
+        } else {
+          console.error(fail);
+        }
+        break;
+
       default:
         stdout.write(`Invalid input${EOL}${EOL}`);
         break;
