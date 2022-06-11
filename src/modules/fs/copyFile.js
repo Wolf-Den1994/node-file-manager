@@ -5,8 +5,6 @@ import { getPath } from '../path/path.js';
 const copyFile = async (path, newPath) => {
   try {
     return new Promise((resolve, reject) => {
-      console.log('getPath(path)', getPath(path));
-      console.log('getPath(newPath)', getPath(newPath));
       const input = createReadStream(getPath(path));
       const output = createWriteStream(getPath(newPath));
 
