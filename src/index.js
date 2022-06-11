@@ -1,18 +1,21 @@
 import { argv, chdir, cwd, stdin, stdout } from 'node:process';
 import { EOL } from 'os';
-import { getName, finishWork, onStop } from '../modules/processes.js';
-import getFiles from '../modules/fs/getFiles.js';
-import { createStartPath, getPath } from '../modules/path/path.js';
-import up from '../modules/path/up.js';
-import { fail } from '../utils/constants.js';
-import customOS from '../modules/os/index.js';
+import { getName, finishWork, onStop } from './modules/processes.js';
+import getFiles from './modules/fs/getFiles.js';
+import { createStartPath, getPath } from './modules/path/path.js';
+import up from './modules/path/up.js';
+import { fail } from './utils/constants.js';
+import customOS from './modules/os/index.js';
+import calculateHash from './modules/hash.js';
 
-const main = async () => {
+const index = async () => {
   createStartPath();
   getName(argv);
   stdin.on('data', async (data) => {
     const input = data.toString().trim().split(' ');
     const command = input[0];
+    const additionalCommand = input[1];
+    // console.log('additionalCommand', additionalCommand)
     // console.log('input', input);
     // console.log('data', data.toString().trim());
     stdout.write(EOL);
@@ -36,10 +39,9 @@ const main = async () => {
         break;
 
       case 'cd':
-        const path = input[1];
-        if (path) {
+        if (additionalCommand) {
           try {
-            chdir(path);
+            chdir(additionalCommand);
           } catch (error) {
             console.error(fail);
           }
@@ -49,9 +51,21 @@ const main = async () => {
         break;
 
       case 'os':
-        const operation = input[1];
-        if (operation) {
-          customOS(operation);
+        if (additionalCommand) {
+          customOS(additionalCommand);
+        } else {
+          console.error(fail);
+        }
+        break;
+
+      case 'hash':
+        if (additionalCommand) {
+          try {
+            const hash = await calculateHash(additionalCommand);
+            stdout.write(`Hash: ${hash}${EOL}${EOL}`);
+          } catch (error) {
+            console.error(fail);
+          }
         } else {
           console.error(fail);
         }
@@ -72,4 +86,4 @@ const main = async () => {
   //createBrotliCompress
 };
 
-main();
+index();
