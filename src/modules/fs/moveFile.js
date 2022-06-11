@@ -3,6 +3,7 @@ import { unlink } from 'fs/promises';
 import { EOL } from 'os';
 import { getPath } from '../path/path.js';
 import copyFile from './copyFile.js';
+import { fail } from '../../utils/constants.js';
 
 const moveFile = async (path, newPath) => {
   try {
@@ -10,7 +11,7 @@ const moveFile = async (path, newPath) => {
     await unlink(getPath(path));
     stdout.write(`File has been moved${EOL}${EOL}`);
   } catch (error) {
-    console.error(error);
+    console.error(fail);
   }
 };
 
