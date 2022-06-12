@@ -184,8 +184,8 @@ const index = async () => {
         stdout.write(`Invalid input${EOL}${EOL}`);
         break;
     }
-    stdout.write(`Please, print commands and wait for results:${EOL}${EOL}`);
     stdout.write(`You are currently in ${cwd()}${EOL}${EOL}`);
+    stdout.write(`Please, print commands and wait for results:${EOL}${EOL}`);
   });
 
   onStop();
