@@ -17,6 +17,7 @@ export const getName = () => {
       stdout.write(
         `Welcome to the File Manager, ${splitUsername[1]}!${EOL}${EOL}`
       );
+      stdout.write(`If you need help, you can call command: help${EOL}${EOL}`);
       stdout.write(`You are currently in ${rootDir}${EOL}${EOL}`);
       stdout.write(`Please, print commands and wait for results:${EOL}${EOL}`);
     }

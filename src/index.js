@@ -15,6 +15,7 @@ import createFile from './modules/fs/createFile.js';
 import readFile from './modules/fs/readFile.js';
 import copyFile from './modules/fs/copyFile.js';
 import moveFile from './modules/fs/moveFile.js';
+import showHelp from './modules/help.js';
 
 const index = async () => {
   createStartPath();
@@ -28,7 +29,6 @@ const index = async () => {
     stdout.write(EOL);
 
     switch (command) {
-      case 'exit':
       case '.exit':
         finishWork();
         break;
@@ -168,6 +168,14 @@ const index = async () => {
             console.error(fail);
           }
         } else {
+          console.error(fail);
+        }
+        break;
+
+      case 'help':
+        try {
+          showHelp();
+        } catch (error) {
           console.error(fail);
         }
         break;
